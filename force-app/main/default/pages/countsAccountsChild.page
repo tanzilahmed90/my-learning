@@ -1,0 +1,15 @@
+<apex:page controller="countsAccountsChild" lightningStylesheets="true" >
+    <apex:pageBlock >
+        <apex:pageBlockTable value="{!AccMap}" var="a">
+            <apex:column headerValue="Account Name" >
+                <apex:outputText value="{!AccMap[a][0]}" />
+            </apex:column> 
+            <apex:column headerValue="No Of Contacts" >
+                <apex:outputText value="{!AccMap[a][1]}" />
+            </apex:column> 
+            <apex:column headerValue="No Of Opportinities" >
+                <apex:outputText value="{!AccMap[a][2]}" />
+            </apex:column> 
+        </apex:pageBlockTable>
+    </apex:pageBlock>
+</apex:page>

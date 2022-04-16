@@ -1,0 +1,32 @@
+<aura:component implements="lightning:actionOverride,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global"> <!--inherit recordId attribute-->
+<aura:attribute name="accountRecord" type="Object" />
+<aura:attribute name="recordSaveError" type="String" />
+<force:recordData aura:id="recordEditor"
+    layoutType="FULL"
+    recordId="{!v.recordId}"
+    targetError="{!v.recordSaveError}"
+    targetFields ="{!v.accountRecord }"
+    mode="EDIT" />
+    
+    <!-- Display an editing form -->
+    <div class="Record Details">
+        <lightning:card iconName="action:edit" title="Edit Account">
+            <div class="slds-p-horizontal--small">
+                <lightning:input label="Account Name" value="{!v.accountRecord.Name}"/>
+                <br/>
+                <lightning:input label="Account Number" value="{!v.accountRecord.AccountNumber}"/>
+                <br/>
+                <lightning:input label="Industry" value="{!v.accountRecord.Industry}"/>
+                <br/>
+                <lightning:button label="Save Account" variant="brand" onclick="{!c.handleSaveRecord}" />
+                <lightning:button label="Cancel" variant="brand" onclick="{!c.cancelling}" />
+            </div>
+        </lightning:card>
+    </div>
+    <!-- Display Lightning Data Service errors, if any -->
+    <aura:if isTrue="{!v.recordSaveError}">
+        <div class="recordError">
+           {!v.recordSaveError}
+        </div>
+    </aura:if>
+</aura:component>

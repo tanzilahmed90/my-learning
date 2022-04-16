@@ -1,0 +1,9 @@
+.THIS {
+    background-color:blue;
+}
+.THIS.yellow{
+    background-color:yellow;
+}
+.THIS .red{
+    background-color:red;
+}

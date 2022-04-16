@@ -1,0 +1,40 @@
+<aura:component controller="search2cartController" implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" >
+    <aura:attribute name="accList" type="Account[]" />
+    <aura:attribute name="selectedAccts" type="Account[]" />
+    <aura:attribute name="searchStr" type="String" />
+    <aura:attribute name="isAct" type="Boolean" default="true"/>
+    <aura:handler name="init" value="{! this }" action="{! c.init }"/>
+    <aura:attribute name="mycolumns" type="List"/>
+    <lightning:card iconName="action:edit">
+        <div class="slds-float_right">
+        <lightning:buttonIcon iconName="utility:cart" variant="container" size="large" alternativeText="Cart" class=" slds-icon_large"/>
+        </div>
+            <div class="slds-p-horizontal--small">
+            <lightning:input value="{!v.searchStr}" onchange="{!c.searchAcc}" label ="Search"/>
+        </div>
+        <lightning:card>
+        </lightning:card>
+        <div style="height: 300px">
+            <lightning:datatable aura:id="dtatable"
+                                 columns="{! v.mycolumns }"
+                                 data="{! v.accList }"
+                                 keyField="id"
+                                 
+                                 onrowselection="{! c.getSelectedName }"/>
+            
+        </div>
+        <div class="slds-p-top_medium slds-float_right">
+        <lightning:button
+                                              label="Add to cart"
+                                              iconName="utility:add"
+                                              iconPosition="center"
+                                              variant="destructive"
+                                              type="submit"
+                          					  disabled="{!v.isAct}"
+                          					onclick="{!c.addToCart}"
+                                              />
+            </div>
+    </lightning:card>
+    
+    
+</aura:component>

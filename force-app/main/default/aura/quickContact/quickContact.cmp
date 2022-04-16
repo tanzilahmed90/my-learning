@@ -1,0 +1,24 @@
+<aura:component controller="QuickContactController" implements="force:lightningQuickAction,force:hasRecordId" access="global" >
+    <aura:attribute name="account" Type="Account" />
+    <aura:attribute name="newContact" type="Contact"
+                    default="{ 'sobjectType': 'Contact' }" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <!-- Display a header with details about the account -->
+    <div class="slds-page-header" role="banner">
+        <p class="slds-text-heading_label">{!v.account.Name}</p>
+        <h1 class="slds-page-header__title slds-m-right_small
+                   slds-truncate slds-align-left">Create New Contact</h1>
+    </div>
+    
+    <lightning:input name="firstName" value="{!v.newContact.FirstName}" label="First Name" 
+                     aura:id="contactField" required="true" />
+    <lightning:input name="lastName" value="{!v.newContact.LastName}" label="Last Name" 
+                     aura:id="contactField" required="true" />
+    <lightning:input name="title" value="{!v.newContact.Title}" label="Title" 
+                     aura:id="contactField" required="true" />
+    <lightning:input name="phone" value="{!v.newContact.Phone}" label="Phone Number" 
+                     aura:id="contactField" required="true" />
+    <lightning:button label="Cancel" onclick="{!c.handleCancel}" class="slds-m-top_medium"/> 
+    <lightning:button label="Save" onclick="{!c.handleSaveContact}" class="slds-m-top_medium"/> 
+    
+</aura:component>

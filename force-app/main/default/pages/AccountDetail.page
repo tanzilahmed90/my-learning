@@ -1,0 +1,9 @@
+<apex:page standardController="Account" extensions="AccList" lightningStylesheets="true">
+<apex:pageBlock >
+<apex:pageBlockTable value="{!AcList}" var="ac">
+<apex:column value="{!ac.Name}" />
+<apex:column value="{!ac.Industry}" />
+<apex:column value="{!ac.Type}" />
+</apex:pageBlockTable> 
+</apex:pageBlock>
+</apex:page>

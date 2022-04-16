@@ -1,0 +1,9 @@
+<aura:component >
+   hello
+    <div>
+        This is div body
+        <p class="red">under div</p>
+    </div>
+    <p class="yellow">outside div</p>
+    
+</aura:component>

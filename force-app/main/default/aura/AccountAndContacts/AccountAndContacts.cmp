@@ -1,0 +1,92 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId,lightning:actionOverride" access="global" >
+    <aura:attribute name="parentRec" type="id" />
+    <aura:attribute name="viewform" type="boolean" default="true"/>
+    <aura:attribute name="isOpen" type="boolean" default="false"/>
+    <aura:attribute name="browserType" type="integer" />
+    <aura:attribute name="CPFields"
+                    type="String[]"
+                    default="['Name', 'RERA_Number__c', 'PAN_Number__c', 'GST_Number__c','Address__c']"/>
+    <aura:attribute name="ContactFields"
+                    type="String[]"
+                    default="['FirstName','LastName', 'Title', 'Email','Phone', 'MobilePhone' ,'Date_of_Birth__c' ,'Date_of_Anniversary__c','MailingStreet','MailingCity','MailingState','MailingCountry','MailingPostalCode' ]"/>
+    <lightning:notificationsLibrary aura:id="notifLib" />
+   
+    
+    <div class="slds-m-around_xx-large">
+        <aura:if isTrue="{!v.viewform}">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Create Account</h2>
+                    </header> 
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                         <aura:if isTrue="{!$Browser.formFactor == 'DESKTOP'}">
+                        <lightning:recordForm
+                                              aura:id="recordViewForm"
+                                              objectApiName="Account"
+                                              fields="{!v.CPFields}"
+                                              columns="2"
+                                              onsuccess="{!c.handleSubmit}"
+                                              oncancel="{!c.onCancel}"
+                                              onerror="{!c.handleError}"/>
+                             <aura:set attribute="else">
+                              <lightning:recordForm
+                                              aura:id="recordViewForm"
+                                              objectApiName="Account"
+                                              fields="{!v.CPFields}"
+                                              columns="1"
+                                              onsuccess="{!c.handleSubmit}"
+                                              oncancel="{!c.onCancel}"
+                                              onerror="{!c.handleError}"/>
+                              </aura:set>
+                        </aura:if>
+                    </div>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </aura:if>
+        
+        <aura:if isTrue="{!v.isOpen}">
+            <!--###### MODAL BOX Start######--> 
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_medium">
+                <div class="slds-modal__container">
+                    <!-- ###### MODAL BOX HEADER Start ######-->
+                    <header class="slds-modal__header">
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Create a related contact</h2>
+                    </header>
+                    <!--###### MODAL BOX BODY Part Start######-->
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <aura:if isTrue="{!$Browser.formFactor == 'DESKTOP'}">
+                            <lightning:recordForm
+                                                  aura:id="recordViewForm1"
+                                                  objectApiName="Contact"
+                                                  fields="{!v.ContactFields}"
+                                                  columns="2"
+                                                  density="comfy"
+                                                  onload="{!c.handleLoad}"
+                                                  onsubmit="{!c.handleSubmit2}"
+                                                  onsuccess="{!c.handleSuccess}"
+                                                  oncancel="{!c.onCancel1}"
+                                                  onerror="{!c.handleError}"/>
+                            <aura:set attribute="else">
+                                <lightning:recordForm
+                                                      aura:id="recordViewForm1"
+                                                      objectApiName="Contact"
+                                                      fields="{!v.ContactFields}"
+                                                      columns="1"
+                                                      density="comfy"
+                                                      onload="{!c.handleLoad}"
+                                                      onsubmit="{!c.handleSubmit2}"
+                                                      onsuccess="{!c.handleSuccess}"
+                                                      oncancel="{!c.onCancel1}"
+                                                      onerror="{!c.handleError}"/>
+                            </aura:set>
+                        </aura:if>
+                    </div>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+            <!--###### MODAL BOX Part END Here ######-->
+        </aura:if>
+    </div>
+</aura:component>

@@ -1,0 +1,117 @@
+<aura:component controller="Lightning_PageBlockTable" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" >
+   
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <aura:attribute name="contacts" type="Contact[]"/>
+    <aura:attribute name="contacts1" type="Contact[]"/>
+    <aura:attribute name="editAccId" type="id"/>
+    <aura:attribute name="isEdit" type="boolean" default="false" />
+    <aura:attribute name="isSorted" type="boolean" default="false" />
+    <aura:attribute name="fields" type="String[]" default="['FirstName','Phone','LastName']" />
+    
+    <aura:attribute name="page" type="integer" description="using for store page Number"/>
+    <aura:attribute name="pages" type="integer" description="using for store All Pages page Number"/>
+    <aura:attribute name="total" type="integer" description="total records count store "/>
+    <aura:attribute name="recordSize" type="integer" description="Records per page" default="10" />
+    
+    <aura:attribute name="arrowDirection" type="string" default="arrowup" description="Use for change arrow sign direction on header based on click"/>
+    <aura:attribute name="isAsc" type="boolean" default="true" description="boolean flag for pass sorting condition to apex class"/> 
+    <aura:attribute name="selectedTabsoft" type="string" default="Name" description="Use for show/hide arraow sign on header based on conditions"/>
+    
+    
+    <lightning:card class="slds-m-around_small">
+        
+        <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+            <thead>
+                <tr class="slds-text-title--caps">
+                    
+                    <th class="slds-is-sortable slds-text-title--caps" scope="col" onclick="{!c.sortFirstName}">
+                        <a href="javascript:void(0);" class="slds-th__action slds-text-link--reset">
+                            <span class="slds-assistive-text">Sort</span>
+                            <span class="slds-truncate" title="FirstName">FirstName</span>  
+                           </a>
+                    </th>
+                    
+                    <th class="slds-is-sortable slds-text-title--caps" scope="col" onclick="{!c.sortLastName}">
+                        <a href="javascript:void(0);" class="slds-th__action slds-text-link--reset">
+                            <span class="slds-assistive-text">Sort</span>
+                            <span class="slds-truncate" title="LastName">LastName</span>
+                            <aura:if isTrue="{! and(v.arrowDirection == 'arrowdown', v.selectedTabsoft == 'LastName') }">&nbsp;  &#9660;</aura:if>
+                            <aura:if isTrue="{! and(v.arrowDirection != 'arrowdown', v.selectedTabsoft == 'LastName') }">&nbsp;  &#9650;</aura:if>     
+                            
+                        </a>
+                    </th>
+                    
+                    <th class="slds-is-sortable slds-text-title--caps" scope="col" onclick="{!c.sortPhone}">
+                        <a href="javascript:void(0);" class="slds-th__action slds-text-link--reset">
+                            <span class="slds-assistive-text">Sort</span>
+                            <span class="slds-truncate" title="Phone">Phone</span>
+                            <aura:if isTrue="{! and(v.arrowDirection == 'arrowdown', v.selectedTabsoft == 'Phone') }">&nbsp;  &#9660;</aura:if>
+                            <aura:if isTrue="{! and(v.arrowDirection != 'arrowdown', v.selectedTabsoft == 'Phone') }">&nbsp;  &#9650;</aura:if>     
+                        </a>
+                    </th>
+                    
+                    <th scope="col">
+                        <div class="slds-truncate" title="Actions">Actions</div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <aura:iteration items="{!v.contacts}"  var="con">
+                     <tr>
+                        <th scope="row">
+                            <div class="slds-truncate" title="{!con.FirstName}">{!con.FirstName}</div>
+                        </th>
+                        
+                        <th scope="row">
+                            <div class="slds-truncate" title="{!con.LastName}">{!con.LastName}</div>
+                        </th>
+                        
+                        <th scope="row">
+                            <div class="slds-truncate" title="{!con.Phone}">{!con.Phone}</div>
+                        </th>
+                        <th scope="row"><div class="slds-p-around_xxx-small">
+                            <button class="slds-button slds-button_brand" onclick="{!c.edit}" id="{!con.Id}">Edit</button>&nbsp;&nbsp;
+                            <button class="slds-button slds-button_destructive" onclick="{!c.delete}" id="{!con.Id}">Delete</button>
+                            </div>
+                        </th> 
+                    </tr>
+                 </aura:iteration>
+            </tbody>
+        </table>
+        <div class="slds-page-header" role="banner">
+            <div class="slds-align_absolute-center">            
+                <lightning:button disabled="{!v.page == 1}" variant="brand" label="Previous Page" onclick="{! c.navigate }" />            
+                <lightning:button disabled="{!v.page == v.pages}" aura:id="previousPage" variant="brand" label="Next Page" onclick="{! c.navigate }" />
+            </div>
+            <p >Total Records : {!v.total} | page {!v.page} of {!v.pages}</p>
+            <!-- <ui:inputSelect aura:id="recordSize" label="Display Record Per Page: " change="{!c.onSelectChange}">
+                <ui:inputSelectOption text="10" label="10" value="true"/>
+                <ui:inputSelectOption text="15" label="15"/>
+                <ui:inputSelectOption text="20" label="20"/>
+            </ui:inputSelect> -->
+        </div>
+        
+        <aura:renderIf isTrue="{!v.isEdit}">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        
+                        <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Edit Contact</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <lightning:recordForm aura:id="edit" 
+                                              recordId="{!v.editAccId}" 
+                                              objectApiName="Contact"
+                                              fields="{!v.fields}"
+                                              columns="2"
+                                              onsubmit="{!c.save}"
+                                              oncancel="{!c.cancelform}"
+                                              mode="edit"/>
+                    </div>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </aura:renderIf>
+    </lightning:card>
+</aura:component>

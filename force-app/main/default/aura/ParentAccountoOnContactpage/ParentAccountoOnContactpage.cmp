@@ -1,0 +1,23 @@
+<aura:component  implements="flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+    <aura:attribute name="recordId" type="Id"/>
+    <aura:attribute name="contactRec" type="Contact" />
+    <aura:attribute name="AccountFields" type="String[]" default="Name,Type,Phone,Industry" />
+    
+    <force:recordData aura:id="ContactRecord"
+                        recordId="{!v.recordId}"
+                        targetFields="{!v.contactRec}"
+                        layoutType="FULL"/>
+    
+ 
+    
+    <lightning:card iconName="standard:user" title="{! 'Account for ' + v.contactRec.LastName}">
+        <div class="slds-p-left_large slds-p-right_medium">
+            <lightning:recordForm aura:id="accountForm"
+                                recordId="{!v.contactRec.AccountId}"
+                                objectApiName="Account"
+                                fields="{!v.AccountFields}"
+                                columns="2"
+                                mode="View"/>
+        </div>
+    </lightning:card>
+</aura:component>

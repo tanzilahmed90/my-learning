@@ -1,0 +1,8 @@
+<apex:page controller="CountRelatedObj1">
+    <apex:pageBlock >
+        <apex:pageBlockTable value="{!AccList}" var="a">
+            <apex:column value="{!a['thename']}"/>
+        <apex:column value="{!a['ContactCount']}"/>
+        </apex:pageBlockTable>
+    </apex:pageBlock>
+</apex:page>

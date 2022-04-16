@@ -1,0 +1,19 @@
+<aura:component controller="MyAccount" implements="flexipage:availableForAllPageTypes" >
+    <aura:attribute name="AccountList" type="Account[]" />
+    <aura:attribute name="Keywords" type="String" />
+    
+    <lightning:input name="input1" value="{!v.Keywords}" label="Search Here"  />
+        <lightning:button variant="brand" label="Search Account" title="Search Account" onclick="{! c.handleClick }"/>
+
+<lightning:card footer="Accounts" title="Search Result">       
+        <aura:iteration items="{!v.AccountList}" var="item">
+
+            <lightning:recordViewForm recordId="{!item.Id}" objectApiName="Account">
+                <lightning:outputField fieldName="Name" />
+                <lightning:outputField fieldName="Industry" />
+                <lightning:outputField fieldName="Type" />
+            </lightning:recordViewForm>
+                            
+        </aura:iteration>
+    </lightning:card>
+</aura:component>

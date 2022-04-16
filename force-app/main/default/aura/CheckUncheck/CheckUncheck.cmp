@@ -1,0 +1,16 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" >
+    <aura:attribute name="checkInput4" type="boolean" default="false" />
+    <aura:attribute name="checkInput1" type="boolean" default="false"/>
+    <aura:attribute name="checkInput2" type="boolean" default="false"/>
+    <aura:attribute name="checkInput3" type="boolean" default="false"/>
+    <aura:attribute name="isSelectAll" type="boolean" default="false"/>
+
+    	<ui:inputCheckbox name="check1" value="{!v.checkInput1}" change="{!c.getselected}" aura:id="selectAll1"/>
+    
+        <ui:inputCheckbox name="check2" value="{!v.checkInput2}" change="{!c.getselected}" aura:id="selectAll2"/>
+
+        <ui:inputCheckbox name="check3" value="{!v.checkInput3}" change="{!c.getselected}" aura:id="selectAll3"/>
+
+        <ui:inputCheckbox name="check4" value="{!v.checkInput4}" change="{!c.getselected}" aura:id="selectAll4"/>
+
+</aura:component>
